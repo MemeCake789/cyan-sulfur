@@ -8,6 +8,7 @@ import { createServer } from "node:http";
 import { logging, server as wisp } from "@mercuryworkshop/wisp-js/server";
 import { createBareServer } from "@tomphttp/bare-server-node";
 import { MasqrMiddleware } from "./masqr.js";
+import fetch from "node-fetch";
 
 dotenv.config();
 
@@ -19,11 +20,13 @@ const server = createServer();
 const bare = process.env.BARE !== "false" ? createBareServer("/seal/") : null;
 logging.set_level(logging.NONE);
 
+/*
 Object.assign(wisp.options, {
   dns_method: "resolve",
   dns_servers: ["1.1.1.3", "1.0.0.3"],
   dns_result_order: "ipv4first"
 });
+*/
 
 server.on("upgrade", (req, sock, head) =>
   bare?.shouldRoute(req)
